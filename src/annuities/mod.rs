@@ -137,7 +137,7 @@ impl NumberOfPeriods for Annuity {
                     Ok(-f64::ln(1.0 + i * (1.0 - (pv / pmt))) / f64::ln(1.0 + i) + 1.0)
                  } else if let (Some(pmt), Some(i), Some(fv)) = (self.pmt, self.i, self.fv) { 
                     let i = i / 100.0;
-                    Ok(f64::ln(1.0 + ((fv / (pmt * (1.0 + i)) * i))) / f64::ln(1.0 + i))
+                    Ok(f64::ln(1.0 + (fv / (pmt * (1.0 + i)) * i)) / f64::ln(1.0 + i))
                  } else if self.pmt == None {
                     Err(Error::Payment)
                 } else if self.i == None {
@@ -169,26 +169,28 @@ impl NumberOfPeriods for Annuity {
     }
 }
 
-pub fn build_annuity(kind: &AnnuityType, input: &Opt) -> Annuity {
-    match kind {
-        AnnuityType::RegularAnnuity => {
-            Annuity {
-                kind: AnnuityType::RegularAnnuity,
-                fv: input.fv,
-                pv: input.pv,
-                i: input.i,
-                n: input.n,
-                pmt: input.pmt
-            }
-        },
-        AnnuityType::AnnuityDue => {
-            Annuity {
-                kind: AnnuityType::AnnuityDue,
-                fv: input.fv,
-                pv: input.pv,
-                i: input.i,
-                n: input.n,
-                pmt: input.pmt
+impl Annuity {
+    pub fn new(kind: &AnnuityType, input: &Opt) -> Annuity {
+        match kind {
+            AnnuityType::RegularAnnuity => {
+                Annuity {
+                    kind: AnnuityType::RegularAnnuity,
+                    fv: input.fv,
+                    pv: input.pv,
+                    i: input.i,
+                    n: input.n,
+                    pmt: input.pmt
+                }
+            },
+            AnnuityType::AnnuityDue => {
+                Annuity {
+                    kind: AnnuityType::AnnuityDue,
+                    fv: input.fv,
+                    pv: input.pv,
+                    i: input.i,
+                    n: input.n,
+                    pmt: input.pmt
+                }
             }
         }
     }

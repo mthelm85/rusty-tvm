@@ -13,11 +13,11 @@ fn main() {
         input::Calculation::PV => match input.pmt {
             Some(_pmt) => {
                 match input.mode {
-                    'e' => annuities::build_annuity(&annuities::AnnuityType::RegularAnnuity, &input).pv(),
-                    'b' => annuities::build_annuity(&annuities::AnnuityType::AnnuityDue, &input).pv(),
+                    'e' => annuities::Annuity::new(&annuities::AnnuityType::RegularAnnuity, &input).pv(),
+                    'b' => annuities::Annuity::new(&annuities::AnnuityType::AnnuityDue, &input).pv(),
                     _ => { 
                         println!("Mode was not 'e' or 'b', defaulting to 'e'...");
-                        annuities::build_annuity(&annuities::AnnuityType::RegularAnnuity, &input).pv()
+                        annuities::Annuity::new(&annuities::AnnuityType::RegularAnnuity, &input).pv()
                      }
                 }
             },
@@ -26,11 +26,11 @@ fn main() {
         input::Calculation::FV => match input.pmt {
             Some(_pmt) => {
                 match input.mode {
-                    'e' => annuities::build_annuity(&annuities::AnnuityType::RegularAnnuity, &input).fv(),
-                    'b' => annuities::build_annuity(&annuities::AnnuityType::AnnuityDue, &input).fv(),
+                    'e' => annuities::Annuity::new(&annuities::AnnuityType::RegularAnnuity, &input).fv(),
+                    'b' => annuities::Annuity::new(&annuities::AnnuityType::AnnuityDue, &input).fv(),
                     _ => { 
                         println!("Mode was not 'e' or 'b', defaulting to 'e'...");
-                        annuities::build_annuity(&annuities::AnnuityType::RegularAnnuity, &input).fv()
+                        annuities::Annuity::new(&annuities::AnnuityType::RegularAnnuity, &input).fv()
                     }
                 }
             },
@@ -39,11 +39,11 @@ fn main() {
         input::Calculation::N => match input.pmt {
             Some(_pmt) => {
                 match input.mode {
-                    'e' => annuities::build_annuity(&annuities::AnnuityType::RegularAnnuity, &input).n(),
-                    'b' => annuities::build_annuity(&annuities::AnnuityType::AnnuityDue, &input).n(),
+                    'e' => annuities::Annuity::new(&annuities::AnnuityType::RegularAnnuity, &input).n(),
+                    'b' => annuities::Annuity::new(&annuities::AnnuityType::AnnuityDue, &input).n(),
                     _ => { 
                         println!("Mode was not 'e' or 'b', defaulting to 'e'...");
-                        annuities::build_annuity(&annuities::AnnuityType::RegularAnnuity, &input).n()
+                        annuities::Annuity::new(&annuities::AnnuityType::RegularAnnuity, &input).n()
                     }
                 }
             },
@@ -52,11 +52,11 @@ fn main() {
         input::Calculation::I => lump_sum::LumpSum { pv: input.pv, n: input.n, fv: input.fv, i: None, }.i(),
         input::Calculation::EAIR => Ok(misc::eair(&input.i.unwrap(), &input.n.unwrap())),
         input::Calculation::PMT => match input.mode {
-            'e' => annuities::build_annuity(&annuities::AnnuityType::RegularAnnuity, &input).pmt(),
-            'b' => annuities::build_annuity(&annuities::AnnuityType::AnnuityDue, &input).pmt(),
+            'e' => annuities::Annuity::new(&annuities::AnnuityType::RegularAnnuity, &input).pmt(),
+            'b' => annuities::Annuity::new(&annuities::AnnuityType::AnnuityDue, &input).pmt(),
             _ => { 
                 println!("Mode was not 'e' or 'b', defaulting to 'e'...");
-                annuities::build_annuity(&annuities::AnnuityType::RegularAnnuity, &input).pmt()
+                annuities::Annuity::new(&annuities::AnnuityType::RegularAnnuity, &input).pmt()
             }
         }
     };
